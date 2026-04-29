@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Form</title>
+</head>
+<body>
+    <h1><center>HTML Form - Registration</center></h1>
+    <form action="submit.php" target="_self" method="post">
+        <label for="name">Name: </label>
+        <input type="text" name="" id="name" placeholder="Enter your full name" autocomplete="on">
+        <br>
+        <label for="pNumber">Phone Number: </label>
+        <input type="number" name="" id="pNumber" placeholder="Enter your phone" autocomplete="on">
+        <br>
+        <label for="email">Email: </label>
+        <input type="email" name="" id="email" placeholder="Enter your email">
+        <br>
+        <label for="date">Date: </label>
+        <input type="date" name="" id="date">
+        <br>
+        <label for="dateAndTime">Date and Time: </label>
+        <input type="datetime" name="" id="dateAndTime">
+        <br>
+        <label for="inputColor">Color: </label>
+        <input type="color" name="" id="inputColor">
+        <br>
+        <label for="file">Upload File (Id card): </label>
+        <input type="file" name="" id="file">
+        <br>
+        <label for="pw">Password: </label>
+        <input type="password" name="" id="pw" placeholder="Enter your password">
+        <br>
+        <label for="url">Enter any URL: </label>
+        <input type="url" name="" id="url">
+          <br>
+        <label for="week">Week: </label>
+        <input type="week" id="week">
+        <br>
+        <input type="search">
+        <br>
+        <input type="range" min="10" max="100" value="50">
+        <br>
+        <label for="male">Male: </label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="female">Female: </label>
+        <input type="radio" name="gender" id="female" value="female">
+        <label for="other">Other: </label>
+        <input type="radio" name="gender" id="other" value="other">
+
+        <!-- gender: male, gender: female, gender: other -->
+        <br>
+        <label for="apple">Apple</label>
+        <input type="checkbox" name="" id="apple">
+        <label for="banana">Banana</label>
+        <input type="checkbox" name="" id="banana">
+        <br>
+        <textarea name="" id="" placeholder="Enter your message"></textarea>
+        <br>
+        <label for="countrySelect">Country: </label>
+        <select name="Country" id="countrySelect">
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            <option value="Australia">Australia</option>
+        </select>
+        <!-- country: India, country: USA, country: UK, country: Australia -->
+
+        <input type="button" name="Sign in" id="" value="Sign In">
+        <input type="reset" name="" id="">
+        <input type="submit" name="" id="">
+    </form>
+</body>
+</html>
