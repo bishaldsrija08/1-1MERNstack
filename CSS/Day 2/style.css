@@ -1,0 +1,32 @@
+
+*{
+    font-family: Arial, sans-serif;
+}
+.abc {
+  color: blue;
+  background-color: yellow;
+}
+
+#main-title {
+  color: red;
+}
+
+.def {
+  color: green;
+}
+
+/* Group selector */
+h1, h2, p {
+  text-align: center;
+  color: red;
+}
+
+/* h2 {
+  text-align: center;
+  color: red;
+} */
+
+/* p {
+  text-align: center;
+  color: red;
+} */

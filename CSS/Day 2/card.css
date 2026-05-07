@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+p,
+span {
+  font-size: 20px;
+}
+
+#main {
+  background-color: white;
+  color: black;
+  width: 400px;
+  border-radius: 5px;
+  margin: 20px;
+  height: 700px;
+}
+
+#left {
+  float: right;
+  margin: 10px;
+  color: grey;
+}
+
+.iphone {
+  margin: 20px;
+}
+
+.gray {
+  color: grey;
+}
+
+#blue {
+  background-color: rgb(161, 161, 227);
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+i {
+  float: right;
+  margin-left: 150px;
+}
