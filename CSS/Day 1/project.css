@@ -1,0 +1,46 @@
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+    
+h1 {
+  color: red;
+  background-color: yellow;
+  width: 400px;
+  border: 3px solid black;
+}
+
+p {
+  font-size: 25px;
+}
+
+h2 {
+  border: 3px solid black;
+  width: 150px;
+}
+
+a{
+    color: blue;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: wheat;
+}
+
+button{
+background-color: #04AA6D;
+border: none;
+color: #ffffff;
+font-family: 'Source Sans Pro', sans-serif;
+font-size: 18px;
+border-radius: 5px;
+padding-left: 19px;
+padding-right: 19px;
+border: 1px solid #cccccc;
+border-color: #04AA6D;
+padding: 8px 16px;
+text-align: center;
+cursor: pointer;
+margin: 40px;
+}
