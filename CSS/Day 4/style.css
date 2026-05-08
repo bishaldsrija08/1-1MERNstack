@@ -1,0 +1,18 @@
+.container{
+    background-color: lightgreen;
+    height: 100vh;
+    display: flex;
+    /* justify-content: space-evenly; */
+}
+
+.item{
+    background-color: lightblue;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+}
+
+#hehe{
+    align-self: flex-end;
+    background-color: red;
+}
