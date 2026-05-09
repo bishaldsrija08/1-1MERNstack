@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button
+      type="button"
+      onclick="
+        document.getElementById('myImage').src = './images/pic_bulbon.gif'
+      "
+    >
+      Turn on bulb
+    </button>
+    <img src="/images/pic_bulboff.gif" alt="" id="myImage" width="200px" />
+    <br /><br />
+    <button
+      type="button"
+      onclick="
+        document.getElementById('myImage').src = './images/pic_bulboff.gif'
+      "
+    >
+      Turn off bulb
+    </button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
