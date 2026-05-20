@@ -1,25 +1,34 @@
 const express = require("express")
 const app = express() // create an instance of express
 const mongoose = require("mongoose")
+const Blog = require("./model/blogModel")
+
+// parse json data
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 
+// Create blog
+app.post("/blogs", async (req,res)=>{
+    const blogTitle = req.body.blogTitle
+    const blogSubTitle = req.body.blogSubTitle
+    const blogDescription = req.body.blogDescription
 
+    if(!blogTitle || !blogSubTitle || !blogDescription) {
+        return res.status(400).json({
+            message: "All fields are required"
+        })
+    }
 
-app.get("/", (req, res) => {
-    res.send("We're learning web development with Express.js!")
-})
+    await Blog.create({
+        blogTitle,
+        blogSubTitle,
+        blogDescription
+    })
 
-
-app.get("/about", (req, res) => {
-    res.send("This is the about page.")
-})
-
-app.get("/login", (req, res) => {
-    res.send("This is the login page.")
-})
-
-app.get("/signup", (req, res) => {
-    res.send("This is the signup page.")
+    res.status(200).json({
+        message: "Blog created successfully"
+    })
 })
 
 // DB connection
