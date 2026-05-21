@@ -41,6 +41,22 @@ app.get("/blogs", async (req, res)=>{
     })
 })
 
+// Single get
+
+app.get("/blogs/:id", async (req, res)=>{
+    const id = req.params.id
+    const singleBlog = await Blog.findById(id)
+    if (!singleBlog){
+        return res.status(404).json({
+            message: "Blog not found"
+        })
+    }
+    res.status(200).json({
+        message: "Blog retrieved successfully",
+        data: singleBlog
+    })
+})
+
 // Server starting
 const port = 3000
 
