@@ -57,6 +57,17 @@ app.get("/blogs/:id", async (req, res)=>{
     })
 })
 
+// Delete a blog
+app.delete("/blogs/:id", async (req, res)=>{
+    const id = req.params.id
+    await Blog.findByIdAndDelete(id)
+    res.status(200).json({
+        message: "Blog deleted successfully"
+    })
+})
+
+// Update a blog
+
 // Server starting
 const port = 3000
 
