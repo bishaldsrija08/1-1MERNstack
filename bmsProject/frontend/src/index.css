@@ -1,0 +1,149 @@
+/* style.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background: #f5f7fb;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 0;
+}
+
+/* HEADER */
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.top-bar h1 {
+  font-size: 32px;
+}
+
+.create-btn {
+  padding: 12px 20px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* BLOG GRID */
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.blog-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.blog-card h2 {
+  margin-bottom: 10px;
+}
+
+.blog-card h4 {
+  color: #2563eb;
+  margin-bottom: 15px;
+}
+
+.blog-card p {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.read-btn {
+  padding: 10px 16px;
+  border: none;
+  background: #111827;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* FORM */
+
+.form-container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form-container h1 {
+  margin-bottom: 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+input,
+textarea {
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.submit-btn {
+  padding: 14px;
+  border: none;
+  background: #16a34a;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* SINGLE BLOG */
+
+.single-blog {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.single-blog h1 {
+  margin-bottom: 10px;
+}
+
+.single-blog h3 {
+  color: #2563eb;
+  margin-bottom: 20px;
+}
+
+.single-blog p {
+  line-height: 1.8;
+}
+
+.back-btn {
+  margin-top: 25px;
+  padding: 12px 18px;
+  border: none;
+  background: #111827;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
