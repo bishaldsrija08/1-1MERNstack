@@ -23,9 +23,11 @@ const Create = () => {
                             placeholder="Enter blog description"
                         ></textarea>
 
-                        <button className="submit-btn">
-                            Publish Blog
-                        </button>
+                        <input
+                            type="submit"
+                            value="Publish Blog"
+                            className="submit-btn"
+                        />
 
                     </form>
                 </div>
