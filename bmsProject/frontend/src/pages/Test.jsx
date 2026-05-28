@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Test2 from "./Test2"
 
 const Test = () => {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(10)
     // const count = 0
     // setCount is a function that updates the count state
     function increment() {
@@ -12,6 +13,9 @@ const Test = () => {
         setCount(count - 1)
     }
 
+    useEffect(()=>{
+        console.log("Count has changed:", count)
+    })
     return (
         <>
             <h1>Test Page</h1>
@@ -19,6 +23,8 @@ const Test = () => {
             <p>Count: {count}</p>
             <button onClick={increment}>Increment</button>
             <button onClick={decrement}>Decrement</button>
+
+            <Test2 title= "Hello"/>
         </>
     )
 }
