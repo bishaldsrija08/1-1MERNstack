@@ -1,6 +1,13 @@
 const express = require("express")
 const app = express() // create an instance of express
 const connectToDb = require("./database")
+const cors = require("cors")
+
+// Cors
+app.use(cors({
+    origin: "http://localhost:5173", // allow requests from this origin
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}))
 
 // parse json data
 app.use(express.json())

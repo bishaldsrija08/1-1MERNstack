@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import Test2 from "./Test2"
 
 const Single = () => {
     return (
@@ -36,7 +35,6 @@ const Single = () => {
                     </button>
                 </div>
             </article>
-            <Test2 title="Single Blog"/>
         </div>
     )
 }
