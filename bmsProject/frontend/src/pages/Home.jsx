@@ -3,35 +3,38 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 
 const Home = () => {
-    const [blogs, setBlogs]= useState([]) // State to hold the list of blogs
+    const [blogs, setBlogs] = useState([]) // State to hold the list of blogs
 
     // Function to fetch blogs from the backend
-    const fetchBlogs = async ()=>{
+    const fetchBlogs = async () => {
         const response = await axios.get("http://localhost:3000/api/blogs")
-        console.log(response.data)
+        setBlogs(response.data.data)
     }
 
     // Fetch blogs when the component mounts
-    useEffect(()=>{
+    useEffect(() => {
         fetchBlogs()
     }, []) // Empty dependency array to run only once on mount
-
+console.log(blogs) // Log the blogs to verify they are being fetched correctly
     return (
         <>
             <div className="card-container">
-                <div className="blog-grid">
-                    <div className="blog-card">
-                        <h2>Blog Title</h2>
-                        <h4>Blog Subtitle</h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Quisquam, voluptate.
-                        </p>
-                        <Link to="/single" className="read-btn">
-                            Read More
-                        </Link>
+                {blogs.map((blog, index) => {
+                    return(
+                    <div className="blog-grid" key={index}>
+                        <div className="blog-card">
+                            <h2>{blog.blogTitle}</h2>
+                            <h4>{blog.blogSubTitle}</h4>
+                            <p>
+                                {blog.blogDescription}
+                            </p>
+                            <Link to={`/single/${blog._id}`} className="read-btn">
+                                Read More
+                            </Link>
+                        </div>
                     </div>
-                </div>
+                    )
+                })}
             </div>
 
         </>
