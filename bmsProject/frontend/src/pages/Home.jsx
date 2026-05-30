@@ -15,7 +15,7 @@ const Home = () => {
     useEffect(() => {
         fetchBlogs()
     }, []) // Empty dependency array to run only once on mount
-console.log(blogs) // Log the blogs to verify they are being fetched correctly
+
     return (
         <>
             <div className="card-container">
