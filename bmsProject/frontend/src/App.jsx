@@ -5,6 +5,7 @@ import Create from "./pages/Create"
 import Single from "./pages/Single"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import Update from "./pages/Update"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/create" element={<Create/>} />
+            <Route path="/update/:id" element={<Update/>} />
             <Route path="/single/:id" element={<Single/>} />
           </Routes>
         </main>

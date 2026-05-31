@@ -39,7 +39,7 @@ const Single = () => {
                     <Link to="/" className="back-btn">
                         Back Home
                     </Link>
-                    <Link to="/create" className="single-action-btn edit-btn">
+                    <Link to={`/update/${id}`} className="single-action-btn edit-btn">
                         Edit
                     </Link>
                     <button onClick={handleDelete} type="button" className="single-action-btn delete-btn">
