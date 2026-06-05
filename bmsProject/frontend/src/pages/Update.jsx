@@ -28,7 +28,7 @@ const Update = () => {
     const handleSubmit = async (e) => {
         e.preventDefault() // prevent the default form submission behavior
 
-        const response = await axios.patch(`http://localhost:3000/api/blogs/${id}`, blog)
+        const response = await axios.patch(`https://one-1mernstack.onrender.com/api/blogs/${id}`, blog)
 
         if (response.status === 200) {
             alert("Blog updated successfully")
