@@ -17,7 +17,7 @@ const Single = () => {
     }, [])
 
     const handleDelete = async ()=>{
-        await axios.delete(`http://localhost:3000/api/blogs/${id}`)
+        await axios.delete(`https://one-1mernstack.onrender.com/api/blogs/${id}`)
         // redirect to home page after deletion
         redirect("/")
     }
