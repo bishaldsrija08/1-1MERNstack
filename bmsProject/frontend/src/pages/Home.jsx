@@ -7,7 +7,7 @@ const Home = () => {
 
     // Function to fetch blogs from the backend
     const fetchBlogs = async () => {
-        const response = await axios.get("http://localhost:3000/api/blogs")
+        const response = await axios.get("https://one-1mernstack.onrender.com/api/blogs")
         setBlogs(response.data.data)
     }
 

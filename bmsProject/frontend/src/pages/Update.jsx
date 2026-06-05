@@ -9,7 +9,7 @@ const Update = () => {
     const [blog, setBlog] = useState({})
 
     const fetchSingleBlog = async () => {
-        const response = await axios.get(`http://localhost:3000/api/blogs/${id}`)
+        const response = await axios.get(`https://one-1mernstack.onrender.com/api/blogs/${id}`)
         setBlog(response.data.data)
     }
 

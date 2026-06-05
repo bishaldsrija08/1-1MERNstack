@@ -5,7 +5,7 @@ const cors = require("cors")
 
 // Cors
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: "https://1-1-mer-nstack.vercel.app"
 }))
 
 // parse json data
