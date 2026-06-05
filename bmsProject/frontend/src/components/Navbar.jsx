@@ -12,9 +12,6 @@ const Navbar = () => {
                     <Link to="/create">
                         Create Blog
                     </Link>
-                    <Link to="/single">
-                        Single Blog
-                    </Link>
                 </div>
             </nav>
 
