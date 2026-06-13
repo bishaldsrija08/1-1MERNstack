@@ -4,9 +4,16 @@ const app = express();
 // Import DB connection
 const connectDB = require("./database/connection")
 
+// Middleware for parsing JSON data
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 // Connect to the database
 connectDB()
 
+// Routes heres
+const authRoutes = require("./routes/auth/authRoutes")
+app.use("/api/auth", authRoutes)
 
 
 app.get("/", (req, res)=>{
