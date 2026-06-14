@@ -87,12 +87,9 @@ const loginUser = async (req, res) => {
 
 // Forgot Password
 
-
+// Verify OTP
 
 // Reset Password
-
-
-
 
 // Logout User
 
