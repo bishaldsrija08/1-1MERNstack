@@ -1,5 +1,6 @@
 const User = require("../../models/userModel");
 const bcrypt = require("bcrypt");
+const sendEmail = require("../../services/sendEmal");
 
 // Regiser User
 
@@ -36,6 +37,12 @@ const registerUser = async (req, res) => {
         userPhoneNumber,
         userName,
         userPassword: await bcrypt.hash(userPassword, 10)
+    })
+
+    sendEmail({
+        userEmail,
+        subject: "Welcome to our E-commerce Platform",
+        text: `Hi ${userName},\n\nThank you for registering on our e-commerce platform. We're excited to have you on board! If you have any questions or need assistance, feel free to reach out to our support team.\n\nBest regards,\nE-commerce Team`
     })
 
     return res.status(201).json({
@@ -85,7 +92,51 @@ const loginUser = async (req, res) => {
     })
 }
 
-// Forgot Password
+// Forgot Password and Send OTP
+
+/*
+1. Accept email from the client
+2. Validate email
+3. Check if user exists
+4. Generate OTP and save it in the database
+5. Send OTP to the user's email
+6. Send a response to the client
+*/
+
+const forgotPassword = async (req, res) => {
+    const { userEmail } = req.body;
+    if (!userEmail) {
+        return res.status(400).json({
+            message: "Email is required"
+        })
+    }
+    const existingUser = await User.findOne({ // Object from the database
+        userEmail
+    })
+
+    if (!existingUser) {
+        return res.status(400).json({
+            message: "User not found! Try registering instead"
+        })
+    }
+
+    // Generate OTP and send it to the user's email
+    const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+    existingUser.otp = otp;
+    await existingUser.save();
+
+    const options = {
+        userEmail,
+        subject: "Your OTP for Password Reset",
+        text: `Your OTP for password reset is ${otp}. It is valid for 10 minutes.`,
+        html: `<h1>Your OTP for password reset is <b>${otp}</b>. It is valid for 10 minutes.</h1>`
+    }
+    await sendEmail(options);
+
+    return res.status(200).json({
+        message: "OTP sent to email"
+    })
+}
 
 // Verify OTP
 
@@ -96,5 +147,6 @@ const loginUser = async (req, res) => {
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    forgotPassword
 }
