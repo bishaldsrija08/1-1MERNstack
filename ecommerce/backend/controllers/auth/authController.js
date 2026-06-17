@@ -1,9 +1,9 @@
 const User = require("../../models/userModel");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../../services/sendEmal");
+const jwt = require("jsonwebtoken");
 
 // Regiser User
-
 
 /*
 1. Accept form data
@@ -86,9 +86,16 @@ const loginUser = async (req, res) => {
         })
     }
 
+    // JWT token generation logic can be implemented here
+    const token = jwt.sign({
+        userId: existingUser._id
+    }, process.env.JWT_SECRET, {
+        expiresIn: "30d"
+    })
+
     return res.status(200).json({
         message: "Login successful",
-        token: "dummy-token" // In a real application, you would generate a JWT token here  
+        token: token // In a real application, you would generate a JWT token here  
     })
 }
 
@@ -147,6 +154,7 @@ const verifyOtp = async (req, res) => {
             message: "Email and OTP are required"
         })
     }
+
     const existingUser = await User.findOne({ // Object from the database
         userEmail
     })
@@ -186,8 +194,6 @@ const verifyOtp = async (req, res) => {
     return res.status(200).json({
         message: "OTP verified successfully"
     })
-
-
 }
 
 // Reset Password
@@ -228,7 +234,7 @@ const resetPassword = async (req, res) => {
     if (diff > passwordResetExpiryTime) {
         existingUser.isOtpVerified = false; // Reset OTP verification status after expiry
         await existingUser.save();
-        
+
         return res.status(400).json({
             message: "Password reset time expired! Please generate a new OTP"
         })
@@ -244,7 +250,6 @@ const resetPassword = async (req, res) => {
 }
 
 // Logout User
-
 
 module.exports = {
     registerUser,
