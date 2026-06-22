@@ -17,10 +17,10 @@ connectDB()
 // Routes heres
 const authRoutes = require("./routes/auth/authRoutes")
 const productRoutes = require("./routes/admin/product/productRoutes")
-
+const profileRoutes = require("./routes/user/myProfile/profileRoutes")
 app.use("/api/admin/product", productRoutes)
 app.use("/api/auth", authRoutes)
-
+app.use("/api/user",profileRoutes)
 
 app.get("/", (req, res)=>{
     res.send("<h1>Project chalirako xa! Hami backend handai xum! UI paxi banaune ho!</h1>")
