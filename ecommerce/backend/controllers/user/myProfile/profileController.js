@@ -3,7 +3,7 @@ const User = require("../../../models/userModel");
 
 // Get my profile - Id
 const getMyProfile = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.user._id;
     const user = await User.findById(userId).select("-userPassword").select("-otp").select("-createdAt").select("-updatedAt").select("-__v").select("-isOtpVerified")
     if (!user) {
         return res.status(404).json({ message: "User not found" })
@@ -15,7 +15,7 @@ const getMyProfile = async (req, res) => {
 }
 // Update my profile
 const updateMyProfile = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.user._id;
     const { userName, userEmail, userPhoneNumber } = req.body;
     if (!userName || !userEmail || !userPhoneNumber) {
         return res.status(400).json({ message: "Please provide all required fields" })
@@ -49,7 +49,7 @@ const updateMyProfile = async (req, res) => {
 
 // Delete my profile
 const deleteMyProfile = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.user._id;
     const user = await User.findById(userId)
     if (!user) {
         return res.status(404).json({ message: "User not found" })
@@ -63,7 +63,7 @@ const deleteMyProfile = async (req, res) => {
 
 // update my password
 const updateMyPassword = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.user._id;
     const { oldPassword, newPassword } = req.body;
     console.log(oldPassword, newPassword, "haahah")
 

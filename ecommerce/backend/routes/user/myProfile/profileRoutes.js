@@ -1,13 +1,14 @@
 const { getMyProfile, deleteMyProfile, updateMyProfile, updateMyPassword } = require('../../../controllers/user/myProfile/profileController');
+const isAuthenticated = require('../../../middleware/isAuthenticated');
 
 const router = require('express').Router();
 
 
 
 
-router.route("/my-profile/:id").get(getMyProfile)
-router.route("/my-profile/:id").delete(deleteMyProfile).patch(updateMyProfile)
-router.route("/my-profile/update-password/:id").patch(updateMyPassword)
+router.route("/my-profile").get(isAuthenticated, getMyProfile)
+router.route("/my-profile").delete(isAuthenticated, deleteMyProfile).patch(isAuthenticated, updateMyProfile)
+router.route("/my-profile/update-password").patch(isAuthenticated, updateMyPassword)
 
 
 
