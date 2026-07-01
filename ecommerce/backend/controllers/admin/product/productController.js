@@ -6,6 +6,13 @@ const createProduct = async (req, res) => {
     if (!productName || !productDescription || !productStockQty || !productStatus || !productPrice) {
         return res.status(400).json({ message: "All fields are required" });
     }
+    const file = req.file;
+    if(!file){
+        return res.status(400).json({ message: "Product image is required" });
+    }else{
+        const filePath = file.filename;
+    }
+
 
     await Product.create({
         productName,
@@ -13,7 +20,7 @@ const createProduct = async (req, res) => {
         productStockQty,
         productStatus,
         productPrice,
-        productImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNxCYXDiJ6LUG-qyO4XnRqqiB8pLwDQvHmKye1Y6ib5A&s=10"
+        productImageUrl: `http://localhost:3000/uploads/${file.filename}`
     })
 
     return res.status(201).json({ message: "Product created successfully" });
