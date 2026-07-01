@@ -1,18 +1,18 @@
 const express = require("express");
 const app = express();
 
+// Import DB connection
+const connectDB = require("./database/connection")
+
 // Load environment variables
 require("dotenv").config()
 
-// Import DB connection
-const connectDB = require("./database/connection")
+// Connect to the database
+connectDB()
 
 // Middleware for parsing JSON data
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-// Connect to the database
-connectDB()
 
 // Routes heres
 const authRoutes = require("./routes/auth/authRoutes")
