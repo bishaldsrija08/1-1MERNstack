@@ -6,6 +6,7 @@ const createProduct = async (req, res) => {
     if (!productName || !productDescription || !productStockQty || !productStatus || !productPrice) {
         return res.status(400).json({ message: "All fields are required" });
     }
+    console.log(req.file)
     const file = req.file;
     if(!file){
         return res.status(400).json({ message: "Product image is required" });
