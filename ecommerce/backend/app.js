@@ -14,13 +14,19 @@ connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// Access to uploads folder
+app.use("/uploads", express.static("uploads"))
+
 // Routes heres
 const authRoutes = require("./routes/auth/authRoutes")
 const productRoutes = require("./routes/admin/product/productRoutes")
 const profileRoutes = require("./routes/user/myProfile/profileRoutes")
+const globalRoutes = require("./routes/global/globalRoutes")
 app.use("/api/admin/product", productRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/user",profileRoutes)
+app.use("/api/globals", globalRoutes)
+
 
 app.get("/", (req, res)=>{
     res.send("<h1>Project chalirako xa! Hami backend handai xum! UI paxi banaune ho!</h1>")

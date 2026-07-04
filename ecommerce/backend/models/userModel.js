@@ -31,7 +31,11 @@ const userSchema = new mongoose.Schema({
     isOtpVerified: {
         type: Boolean,
         default: false
-    }
+    },
+    cart: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'product'
+    }]
 }, {
     timestamps: true
 })

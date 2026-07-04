@@ -13,6 +13,7 @@ const getMyProfile = async (req, res) => {
         data: user
     })
 }
+
 // Update my profile
 const updateMyProfile = async (req, res) => {
     const userId = req.user._id;
