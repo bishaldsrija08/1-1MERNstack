@@ -22,10 +22,14 @@ const authRoutes = require("./routes/auth/authRoutes")
 const productRoutes = require("./routes/admin/product/productRoutes")
 const profileRoutes = require("./routes/user/myProfile/profileRoutes")
 const globalRoutes = require("./routes/global/globalRoutes")
+const cartRoutes = require("./routes/user/cart/cartRoutes")
+
+
 app.use("/api/admin/product", productRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/user",profileRoutes)
 app.use("/api/globals", globalRoutes)
+app.use("/api/user/cart", cartRoutes)
 
 
 app.get("/", (req, res)=>{
