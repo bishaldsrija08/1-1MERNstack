@@ -4,12 +4,12 @@ const userSchema = new mongoose.Schema({
     userEmail: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     userPhoneNumber: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     userName: {
         type: String,
@@ -17,20 +17,20 @@ const userSchema = new mongoose.Schema({
     },
     userPassword: {
         type: String,
-        required: true
+        required: true,
     },
     userRole: {
         type: String,
         enum: ['seller', 'customer'],
-        default: 'customer'
+        default: 'customer',
     },
     otp: {
         type: Number,
-        default: null
+        default: null,
     },
     isOtpVerified: {
         type: Boolean,
-        default: false
+        default: false,
     },
     cart: [{
         type: mongoose.Schema.Types.ObjectId,

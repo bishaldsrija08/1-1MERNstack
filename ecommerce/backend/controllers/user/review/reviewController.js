@@ -29,6 +29,7 @@ const getAllProductReviews = async (req, res) => {
     if (!productExists) {
         return res.status(404).json({ message: "Product not found" });
     }
+    // dont fetch unnecessary data
     const reviews = await Review.find({ productId }).populate("userId").populate("productId");
     if (reviews.length === 0) {
         return res.status(404).json({ message: "No reviews found for this product" });
@@ -36,15 +37,20 @@ const getAllProductReviews = async (req, res) => {
     res.status(200).json({ data: reviews });
 }
 
-// Get a single review
-const getMyReview = async(req, res)=>{
+// Get my reviews
+const getMyReview = async (req, res) => {
     const usrId = req.user._id;
-    const review = await Review.find({userId: usrId}).populate("userId").populate("productId");
-    if(review.length===0){
-        return res.status(404).json({message: "Review not found"});
+
+    const review = await Review.find({ userId: usrId })
+        .populate("userId")
+        .populate("productId");
+
+    if (!review.length) {
+        return res.status(404).json({ message: "Review not found" });
     }
+
     res.status(200).json({ data: review });
-}
+};
 
 // Delete a review
 const deleteReview = async (req, res) => {
@@ -56,7 +62,9 @@ const deleteReview = async (req, res) => {
         return res.status(404).json({ message: "Review not found" });
     }
     const ownerId = review.userId // Get the owner ID of the review
-    if (userId != ownerId) {
+    // console.log(userId.toString()==ownerId.toString())
+    // console.log(userId, ownerId)
+    if (userId.toString() != ownerId.toString()) {
         return res.status(403).json({ message: "You are not authorized to delete this review" });
     }
 

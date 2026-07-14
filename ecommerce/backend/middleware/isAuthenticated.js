@@ -20,6 +20,7 @@ const isAuthenticated = async(req, res, next) => {
 
         const userId = decoded.userId
         const isUserExists = await User.findById(userId)
+        console.log(isUserExists)
         if (!isUserExists) {
             return res.status(401).json({
                 message: "User not found, authorization denied"
