@@ -59,8 +59,9 @@ const updateMyOrder = async (req, res)=>{
     if(!existingOrder) {
         return res.status(404).json({message: "Order not found"});
     }
+    console.log(userId, existingOrder.userId.toString(), "hahha")
 
-    if(existingOrder.userId.toString() !== userId) {
+    if(existingOrder.userId.toString() !== userId.toString()) {
         return res.status(403).json({message: "You are not the owner of this order"});
     }
 
@@ -85,7 +86,7 @@ const deleteMyOrder = async (req, res)=>{
         return res.status(404).json({message: "Order not found"});
     }
 
-    if(existingOrder.userId.toString() !== userId) {
+    if(existingOrder.userId.toString() !== userId.toString()) {
         return res.status(403).json({message: "You are not the owner of this order"});
     }
 

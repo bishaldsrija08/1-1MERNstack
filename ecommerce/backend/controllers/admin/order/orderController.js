@@ -27,6 +27,10 @@ const updateOrderStatus = async (req, res)=>{
         return res.status(400).json({message: "Order ID is required"});
     }
 
+    if(!orderStatus) {
+        return res.status(400).json({message: "Order status is required"});
+    }
+    
     const existingOrder = await Order.findById(orderId);
     if(!existingOrder) {
         return res.status(404).json({message: "Order not found"});

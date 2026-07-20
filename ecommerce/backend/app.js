@@ -23,8 +23,9 @@ const productRoutes = require("./routes/admin/product/productRoutes")
 const profileRoutes = require("./routes/user/myProfile/profileRoutes")
 const globalRoutes = require("./routes/global/globalRoutes")
 const cartRoutes = require("./routes/user/cart/cartRoutes")
-const orderRoutes = require("./routes/user/order/orderRoutes")
+const orderUserRoutes = require("./routes/user/order/orderRoutes")
 const reviewRoutes = require("./routes/user/review/reviewRoutes")
+const adminOrderRoutes = require("./routes/admin/order/orderRoutes")
 
 // Using Routes here
 app.use("/api/admin/product", productRoutes)
@@ -32,10 +33,9 @@ app.use("/api/auth", authRoutes)
 app.use("/api/user",profileRoutes)
 app.use("/api/globals", globalRoutes)
 app.use("/api/user/cart", cartRoutes)
-app.use("/api/user", orderRoutes)
+app.use("/api/user", orderUserRoutes)
 app.use("/api/user/review", reviewRoutes)
-
-
+app.use("/api/admin/order", adminOrderRoutes)
 
 
 
