@@ -1,6 +1,19 @@
-import products from "../../../data/products"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 export default function Product() {
+    const [products, setProducts] = useState([])
+
+    const fetchProducts = async ()=>{
+        const response = await axios.get("http://localhost:3000/api/globals/products/")
+        if(response.status==200){
+            setProducts(response.data.data)
+        }
+    }
+
+    useEffect(()=>{
+        fetchProducts();
+    }, [])
     return (
         <div className="relative w-full">
             <div className="relative bg-white-50">
@@ -10,7 +23,7 @@ export default function Product() {
                     <div className="flex flex-wrap justify-between gap-8 mt-10">
                         {products.map((product) => (
                             <div key={product._id} className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md w-80 hover:scale-105 hover:shadow-lg">
-                                <img className="object-cover object-center w-full h-48" src={product.productImage} alt={product.productName} />
+                                <img className="object-cover object-center w-full h-48" src={product.productImageUrl} alt={product.productName} />
                                 <div className="p-4">
                                     <h2 className="mb-2 text-lg font-medium text-gray-900">{product.productName}</h2>
                                     <p className="mb-4 text-base text-gray-700">{product.productDescription}</p>
@@ -19,9 +32,9 @@ export default function Product() {
                                             <p className="text-lg font-semibold text-gray-900">${product.productPrice.toFixed(2)}</p>
                                             <p className="text-sm text-gray-500">Freshly prepared</p>
                                         </div>
-                                        <span className="px-4 py-2 font-bold text-white bg-yellow-500 rounded">
-                                            Best Seller
-                                        </span>
+                                        <button className="px-4 py-2 font-bold text-white bg-yellow-500 rounded">
+                                            Add to Cart
+                                        </button>
                                     </div>
                                 </div>
                             </div>
