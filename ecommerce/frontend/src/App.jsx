@@ -5,9 +5,12 @@ import Login from "./pages/auth/login/Login"
 import Register from "./pages/auth/register/Register"
 import Cart from "./pages/cart/Cart"
 import Home from "./pages/home/Home"
+import {Provider} from "react-redux"
+import store from "./store/store"
 
 function App() {
   return (
+    <Provider store={store}>
     <BrowserRouter>
         <Navbar />
           <Routes>
@@ -18,6 +21,7 @@ function App() {
           </Routes>
         <Footer />
     </BrowserRouter>
+    </Provider>
   )
 }
 
