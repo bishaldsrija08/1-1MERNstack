@@ -5,9 +5,13 @@ import { API } from '../http';
 const authSlice = createSlice({
     name: "auth",
     initialState:{
-        data: null,
+        data: [],
         status:STATUSES.SUCCESS,
-        token: null
+        token: "",
+        forgotPasswordData: {
+            email: null,
+            status: STATUSES.SUCCESS
+        }
     },
     reducers: {
         setUser(state, action){
@@ -18,12 +22,24 @@ const authSlice = createSlice({
         },
         setToken(state,action){
             state.token = action.payload;
+        },
+        setEmail(state, action){
+            state.forgotPasswordData.email = action.payload;
+        },
+        logOut(state, action){
+            state.data = [];
+            state.token = "";
+            state.status = STATUSES.SUCCESS;
+        },
+        setForgotPasswordStatus(state, action){
+            state.forgotPasswordData.status = action.payload;
         }
     }
 })
 
-export const {setUser, setStatus, setToken} = authSlice.actions;
+export const {setUser, setStatus, setToken, logOut, setEmail, setForgotPasswordStatus} = authSlice.actions;
 
+export default authSlice.reducer;
 
 // Thunks to handle async actions
 export function registerUser(userData){
@@ -49,6 +65,9 @@ export function loginUser(credentials){
             dispatch(setUser(res.data.user));
             dispatch(setToken(res.data.token));
             dispatch(setStatus(STATUSES.SUCCESS));
+            if(res.status==200 && res.data.token){
+                localStorage.setItem("token", res.data.token);
+            }
         } catch (error) {
             dispatch(setStatus(STATUSES.ERROR));
             console.log(error);
@@ -69,4 +88,3 @@ export function forgotPassword(data){
         }
     }
 }
-export default authSlice.reducer;

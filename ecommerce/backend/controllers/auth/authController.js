@@ -95,6 +95,7 @@ const loginUser = async (req, res) => {
 
     return res.status(200).json({
         message: "Login successful",
+        user: existingUser,
         token: token // In a real application, you would generate a JWT token here  
     })
 }
