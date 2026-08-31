@@ -1,6 +1,16 @@
 import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { logOut } from "../../../store/authSlice"
 
 export default function Navbar() {
+  const dispatch = useDispatch()
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token")
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    dispatch(logOut())
+  }
+
   return (
     <nav className="fixed z-10 w-full bg-white/95 backdrop-blur-sm">
       <div className="container px-4 mx-auto md:px-8 lg:px-10">
@@ -27,12 +37,21 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-6 lg:flex">
             <div className="h-12 w-px bg-yellow-300" />
-            <Link to="/register" title="Create account" className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
-              Sign up
-            </Link>
-            <Link to="/login" title="Open login" className="rounded-full bg-yellow-300 px-8 py-3 text-lg font-semibold text-yellow-900 transition hover:bg-yellow-200">
-              Login
-            </Link>
+            {/* If login show logout button else show login and signup buttons */}
+            {token ? (
+              <button onClick={handleLogout} className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link to="/register" title="Create account" className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
+                  Sign up
+                </Link>
+                <Link to="/login" title="Open login" className="rounded-full bg-yellow-300 px-8 py-3 text-lg font-semibold text-yellow-900 transition hover:bg-yellow-200">
+                  Login
+                </Link>
+              </>
+            )}
           </div>
 
           <button aria-label="hamburger" id="hamburger" className="relative h-10 w-10 lg:hidden">
