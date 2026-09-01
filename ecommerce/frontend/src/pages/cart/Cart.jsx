@@ -1,65 +1,65 @@
+import { useDispatch } from "react-redux"
+import { deleteCartItem, updateCartItem } from "../../store/cartSlice"
+import { useNavigate } from "react-router-dom"
+
 const Cart = () => {
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  
   return (
-    // <div className="min-h-screen pt-20 bg-gray-100">
-    //   <h1 className="mb-10 text-2xl font-bold text-center">Cart Items</h1>
-    //   <div className="justify-center max-w-5xl px-6 mx-auto md:flex md:space-x-6 xl:px-0">
-    //     <div className="rounded-lg md:w-2/3">
-    //       {cartItems.map((product) => (
-    //         <div key={product._id} className="justify-between p-6 mb-6 bg-white rounded-lg shadow-md sm:flex sm:justify-start">
-    //           <img src={product.productImage} alt={product.productName} className="object-cover w-full rounded-lg h-36 sm:w-40" />
-    //           <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-    //             <div className="mt-5 sm:mt-0">
-    //               <h2 className="text-lg font-bold text-gray-900">{product.productName}</h2>
-    //               <p className="mt-1 text-sm text-gray-700">{product.productDescription}</p>
-    //             </div>
-    //             <div className="flex justify-between mt-4 sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-    //               <div className="flex items-center border-gray-100">
-    //                 <span className="px-3 py-1 bg-gray-100 rounded-l">-</span>
-    //                 <input
-    //                   className="w-10 h-8 text-xs text-center bg-white border outline-none"
-    //                   type="number"
-    //                   value="1"
-    //                   min="1"
-    //                   readOnly
-    //                 />
-    //                 <span className="px-3 py-1 bg-gray-100 rounded-r">+</span>
-    //               </div>
-    //               <div className="flex items-center space-x-4">
-    //                 <p className="text-sm font-semibold">${product.productPrice.toFixed(2)}</p>
-    //                 <span className="text-sm font-medium text-red-500">Remove</span>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       ))}
-    //     </div>
+    <main className="min-h-screen bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-8 border-b border-slate-200 pb-6">
+          <p className="text-sm font-semibold tracking-wide text-emerald-700">YOUR BAG</p>
+          <h1 className="mt-1 text-3xl font-bold text-slate-900">Shopping cart</h1>
+          <p className="mt-2 text-sm text-slate-500">2 items ready for checkout</p>
+        </div>
 
-    //     <div className="h-full p-6 mt-6 bg-white border rounded-lg shadow-md md:mt-0 md:w-1/3">
-    //       <div className="flex justify-between mb-2">
-    //         <p className="text-gray-700">Subtotal</p>
-    //         <p className="text-gray-700">${subtotal.toFixed(2)}</p>
-    //       </div>
-    //       <div className="flex justify-between">
-    //         <p className="text-gray-700">Shipping</p>
-    //         <p className="text-gray-700">${shippingCost.toFixed(2)}</p>
-    //       </div>
-    //       <hr className="my-4" />
-    //       <div className="flex justify-between">
-    //         <p className="text-lg font-bold">Total</p>
-    //         <div>
-    //           <p className="mb-1 text-lg font-bold">${total.toFixed(2)} USD</p>
-    //           <p className="text-sm text-gray-700">including VAT</p>
-    //         </div>
-    //       </div>
-    //       <button className="w-full py-1.5 mt-6 font-medium bg-blue-500 rounded-md text-blue-50 hover:bg-blue-600">
-    //         Check out
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
-    <h1>Hi cart</h1>
+        <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+          <section className="space-y-4">
+          {}
+            <article className="grid gap-5 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:grid-cols-[140px_1fr] sm:p-5">
+              <img
+                src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=480&q=80"
+                alt="Linen overshirt"
+                className="h-44 w-full rounded-md object-cover sm:h-36"
+              />
+              <div className="flex min-w-0 flex-col justify-between gap-5">
+                <div className="flex justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Apparel</p>
+                    <h2 className="mt-1 text-lg font-bold text-slate-900">Everyday Linen Overshirt</h2>
+                    <p className="mt-1 text-sm text-slate-500">Olive / Medium</p>
+                  </div>
+                  <p className="whitespace-nowrap text-lg font-bold text-slate-900">$74.00</p>
+                </div>
+                <div className="flex items-center justify-between border-t border-slate-100 pt-4">
+                  <div className="inline-flex items-center rounded-md border border-slate-200">
+                    <button type="button" aria-label="Decrease quantity" className="h-9 w-9 text-lg text-slate-500 hover:bg-slate-50">-</button>
+                    <span className="grid h-9 w-9 place-items-center border-x border-slate-200 text-sm font-semibold text-slate-900">1</span>
+                    <button type="button" aria-label="Increase quantity" className="h-9 w-9 text-lg text-slate-500 hover:bg-slate-50">+</button>
+                  </div>
+                  <button type="button" className="text-sm font-semibold text-rose-600 hover:text-rose-700">Remove</button>
+                </div>
+              </div>
+            </article>
+
+            <a href="/" className="inline-block pt-2 text-sm font-semibold text-emerald-700 hover:text-emerald-800">Continue shopping</a>
+          </section>
+
+          <aside className="h-fit rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-bold text-slate-900">Order summary</h2>
+            <div className="mt-6 space-y-4 text-sm">
+              <div className="flex justify-between text-slate-600"><span>Subtotal</span><span className="font-medium text-slate-900">$203.00</span></div>
+              <div className="flex justify-between text-slate-600"><span>Shipping</span><span className="font-medium text-emerald-700">Free</span></div>
+              <div className="flex justify-between border-t border-slate-200 pt-4 text-lg font-bold text-slate-900"><span>Total</span><span>$203.00</span></div>
+            </div>
+            <button type="button" className="mt-6 w-full rounded-md bg-emerald-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-800">Proceed to checkout</button>
+            <p className="mt-4 text-center text-xs text-slate-500">Taxes calculated at checkout.</p>
+          </aside>
+        </div>
+      </div>
+    </main>
   )
 }
-
 export default Cart
