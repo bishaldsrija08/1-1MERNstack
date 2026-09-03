@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 export default function Product() {
     const [products, setProducts] = useState([])
@@ -22,22 +23,24 @@ export default function Product() {
 
                     <div className="flex flex-wrap justify-between gap-8 mt-10">
                         {products.map((product) => (
-                            <div key={product._id} className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md w-80 hover:scale-105 hover:shadow-lg">
-                                <img className="object-cover object-center w-full h-48" src={product.productImageUrl} alt={product.productName} />
-                                <div className="p-4">
-                                    <h2 className="mb-2 text-lg font-medium text-gray-900">{product.productName}</h2>
-                                    <p className="mb-4 text-base text-gray-700">{product.productDescription}</p>
-                                    <div className="flex items-center justify-between gap-3">
-                                        <div>
-                                            <p className="text-lg font-semibold text-gray-900">${product.productPrice.toFixed(2)}</p>
-                                            <p className="text-sm text-gray-500">Freshly prepared</p>
+                            <Link to={`/productdetails/${product._id}`} key={product._id}>
+                                <div className="mx-auto overflow-hidden duration-300 transform bg-white rounded-lg shadow-md w-80 hover:scale-105 hover:shadow-lg">
+                                    <img className="object-cover object-center w-full h-48" src={product.productImageUrl} alt={product.productName} />
+                                    <div className="p-4">
+                                        <h2 className="mb-2 text-lg font-medium text-gray-900">{product.productName}</h2>
+                                        <p className="mb-4 text-base text-gray-700">{product.productDescription}</p>
+                                        <div className="flex items-center justify-between gap-3">
+                                            <div>
+                                                <p className="text-lg font-semibold text-gray-900">${product.productPrice.toFixed(2)}</p>
+                                                <p className="text-sm text-gray-500">Freshly prepared</p>
+                                            </div>
+                                            <button className="px-4 py-2 font-bold text-white bg-yellow-500 rounded">
+                                                Add to Cart
+                                            </button>
                                         </div>
-                                        <button className="px-4 py-2 font-bold text-white bg-yellow-500 rounded">
-                                            Add to Cart
-                                        </button>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>
