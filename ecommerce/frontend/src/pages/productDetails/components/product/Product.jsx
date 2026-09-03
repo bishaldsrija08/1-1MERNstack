@@ -8,13 +8,15 @@ const Product = ({ productId }) => {
     const navigate = useNavigate();
     // fetch product details from API using product id from URL params
     const dispatch = useDispatch();
-    useEffect(()=>{
+    useEffect(() => {
+      if (productId) {
         dispatch(fetchProducts(productId));
-    },[])
+      }
+    }, [dispatch, productId])
 
-    const {selectedProduct, status} = useSelector((state)=>state.product);
+    const { selectedProduct } = useSelector((state) => state.product);
 
-    const product = selectedProduct?.data && selectedProduct?.data[0];
+    const product = selectedProduct?.data ?? selectedProduct;
 
     const {data: user} = useSelector((state)=>state.auth);
 
