@@ -5,6 +5,7 @@ const User = require('../models/userModel');
 const isAuthenticated = async(req, res, next) => {
     try {
         const token = req.headers.authorization
+        console.log("Token from headers:", token)
         if (!token) {
             return res.status(401).json({
                 message: "No token provided, authorization denied"

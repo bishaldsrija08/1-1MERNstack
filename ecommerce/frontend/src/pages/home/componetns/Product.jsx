@@ -32,11 +32,9 @@ export default function Product() {
                                         <div className="flex items-center justify-between gap-3">
                                             <div>
                                                 <p className="text-lg font-semibold text-gray-900">${product.productPrice.toFixed(2)}</p>
-                                                <p className="text-sm text-gray-500">Freshly prepared</p>
+                                                <p className="text-sm text-gray-500">New launch</p>
                                             </div>
-                                            <button className="px-4 py-2 font-bold text-white bg-yellow-500 rounded">
-                                                Add to Cart
-                                            </button>
+
                                         </div>
                                     </div>
                                 </div>

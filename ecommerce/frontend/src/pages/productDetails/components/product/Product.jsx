@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../../../store/cartSlice";
 
 const Product = ({ productId }) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     // fetch product details from API using product id from URL params
     const dispatch = useDispatch();
     useEffect(() => {
@@ -18,15 +18,17 @@ const Product = ({ productId }) => {
 
     const product = selectedProduct?.data ?? selectedProduct;
 
-    const {data: user} = useSelector((state)=>state.auth);
+    const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
-    const handleCart = ()=>{
-        if(user.length==0 || localStorage.getItem("token")===null || localStorage.getItem("token")==="" || localStorage.getItem("token")===undefined){
+    const handleCart = () => {
+        if (!token) {
             navigate("/login");
-        }else{
+        } else {
             dispatch(addToCart(productId));
         }
     }
+
+    
 
   return (
     <section className="overflow-hidden text-gray-700 bg-white body-font">
@@ -68,19 +70,24 @@ const Product = ({ productId }) => {
               </span>
             </div>
             <p className="leading-relaxed">{product?.productDescription}</p>
-            <p className="leading-relaxed"> <span className="font-bold">{product?.productStatus}</span> : In Stock</p>
+            {/* if stock is available then show in stock other wise show out of stock */}
+            {product?.productStockQty > 0 ? (
+              <p className="leading-relaxed"> <span className="font-bold">In stock</span></p>
+            ) : (
+              <p className="leading-relaxed"> <span className="font-bold">Out of stock</span></p>
+            )}
+
             <div className="flex items-center pb-5 mt-6 mb-5 border-b-2 border-gray-200">
             <p className="leading-relaxed"> <span className="font-bold">Stock Left</span> : {product?.productStockQty}</p>
         
             </div>
             <div className="flex">
               <span className="text-2xl font-medium text-gray-900 title-font">NPR {product?.productPrice?.toLocaleString()}</span>
-              <button onClick={handleCart} className="flex px-6 py-2 ml-auto text-white bg-red-500 border-0 rounded focus:outline-none hover:bg-red-600">Add To Cart</button>
-              {/* <button className="inline-flex items-center justify-center w-10 h-10 p-0 ml-4 text-gray-500 bg-gray-200 border-0 rounded-full">
-                <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                </svg>
-              </button> */}
+              {product?.productStockQty>0 ? (
+                <button onClick={handleCart} className="flex px-6 py-2 ml-auto text-white bg-red-500 border-0 rounded focus:outline-none hover:bg-red-600">Add To Cart</button>
+              ):(
+                <button disabled className="flex px-6 py-2 ml-auto text-white bg-gray-500 border-0 rounded focus:outline-none cursor-not-allowed">Out of Stock</button>
+              )}
             </div>
           </div>
         </div>
