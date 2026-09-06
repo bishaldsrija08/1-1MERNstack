@@ -25,6 +25,7 @@ const Product = ({ productId }) => {
             navigate("/login");
         } else {
             dispatch(addToCart(productId));
+            navigate("/cart");
         }
     }
 
