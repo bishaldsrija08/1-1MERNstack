@@ -29,7 +29,7 @@ const Product = ({ productId }) => {
         }
     }
 
-    
+    {}
 
   return (
     <section className="overflow-hidden text-gray-700 bg-white body-font">

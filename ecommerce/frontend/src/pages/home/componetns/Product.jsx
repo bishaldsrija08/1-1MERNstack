@@ -1,12 +1,13 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { API } from "../../../http"
 
 export default function Product() {
     const [products, setProducts] = useState([])
 
     const fetchProducts = async ()=>{
-        const response = await axios.get("http://localhost:3000/api/globals/products/")
+        // const response = await axios.get("http://localhost:3000/api/globals/products/")
+        const response = await API.get("/globals/products/")
         if(response.status==200){
             setProducts(response.data.data)
         }
