@@ -4,7 +4,7 @@ const User = require("../../../models/userModel");
 // Get my profile - Id
 const getMyProfile = async (req, res) => {
     const userId = req.user._id;
-    const user = await User.findById(userId)
+    const user = await User.findById(userId).select("-userPassword -otp -isOtpVerified")
     if (!user) {
         return res.status(404).json({ message: "User not found" })
     }
@@ -40,7 +40,7 @@ const updateMyProfile = async (req, res) => {
         userName,
         userEmail,
         userPhoneNumber
-    })
+    }, { new: true }).select("-userPassword -otp -isOtpVerified")
     res.status(200).json({
         message: "User profile updated successfully",
         data: updatedUser

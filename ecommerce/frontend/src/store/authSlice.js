@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { STATUSES } from '../globals/mis/statuses';
-import { API } from '../http';
+import { API, APIAuth } from '../http';
 
 const authSlice = createSlice({
     name: "auth",
@@ -26,7 +26,7 @@ const authSlice = createSlice({
         setEmail(state, action) {
             state.forgotPasswordData.email = action.payload;
         },
-        logOut(state, action) {
+        logOut(state) {
             state.data = [];
             state.token = "";
             state.status = STATUSES.SUCCESS;
@@ -88,13 +88,101 @@ export function loginUser(userData) {
 // forgot password
 export function forgotPassword(data) {
     return async function forgotPasswordThunk(dispatch) {
-        dispatch(setStatus(STATUSES.LOADING));
+        dispatch(setForgotPasswordStatus(STATUSES.LOADING));
         try {
             const res = await API.post("auth/forgot-password", data);
+            dispatch(setForgotPasswordStatus(STATUSES.SUCCESS));
+            return res.data;
+        } catch (error) {
+            dispatch(setForgotPasswordStatus(STATUSES.ERROR));
+            throw error;
+        }
+    }
+}
+
+export function verifyOtp(data) {
+    return async function verifyOtpThunk(dispatch) {
+        dispatch(setForgotPasswordStatus(STATUSES.LOADING));
+        try {
+            const res = await API.post("auth/verify-otp", data);
+            dispatch(setForgotPasswordStatus(STATUSES.SUCCESS));
+            return res.data;
+        } catch (error) {
+            dispatch(setForgotPasswordStatus(STATUSES.ERROR));
+            throw error;
+        }
+    }
+}
+
+export function resetPassword(data) {
+    return async function resetPasswordThunk(dispatch) {
+        dispatch(setForgotPasswordStatus(STATUSES.LOADING));
+        try {
+            const res = await API.post("auth/reset-password", data);
+            dispatch(setForgotPasswordStatus(STATUSES.SUCCESS));
+            return res.data;
+        } catch (error) {
+            dispatch(setForgotPasswordStatus(STATUSES.ERROR));
+            throw error;
+        }
+    }
+}
+
+export function fetchMyProfile() {
+    return async function fetchMyProfileThunk(dispatch) {
+        dispatch(setStatus(STATUSES.LOADING));
+        try {
+            const res = await APIAuth.get("user/my-profile");
+            dispatch(setUser(res.data.data));
             dispatch(setStatus(STATUSES.SUCCESS));
+            return res.data.data;
         } catch (error) {
             dispatch(setStatus(STATUSES.ERROR));
-            console.log(error);
+            throw error;
+        }
+    }
+}
+
+export function updateMyProfile(data) {
+    return async function updateMyProfileThunk(dispatch) {
+        dispatch(setStatus(STATUSES.LOADING));
+        try {
+            const res = await APIAuth.patch("user/my-profile", data);
+            dispatch(setUser(res.data.data));
+            dispatch(setStatus(STATUSES.SUCCESS));
+            return res.data.data;
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR));
+            throw error;
+        }
+    }
+}
+
+export function updateMyPassword(data) {
+    return async function updateMyPasswordThunk(dispatch) {
+        dispatch(setStatus(STATUSES.LOADING));
+        try {
+            const res = await APIAuth.patch("user/my-profile/update-password", data);
+            dispatch(setStatus(STATUSES.SUCCESS));
+            return res.data;
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR));
+            throw error;
+        }
+    }
+}
+
+export function deleteMyProfile() {
+    return async function deleteMyProfileThunk(dispatch) {
+        dispatch(setStatus(STATUSES.LOADING));
+        try {
+            const res = await APIAuth.delete("user/my-profile");
+            localStorage.removeItem("token");
+            dispatch(logOut());
+            return res.data;
+        } catch (error) {
+            dispatch(setStatus(STATUSES.ERROR));
+            throw error;
         }
     }
 }

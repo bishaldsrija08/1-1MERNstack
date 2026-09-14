@@ -6,7 +6,7 @@ const catchAsync = require("../../../services/catchAsync");
 const router = require("express").Router();
 
 router.route("/create/:id").post(isAuthenticated, checkRole("customer"), catchAsync(createReview))
-router.route("/all-reviews/:id").get(isAuthenticated, checkRole("customer", "seller"), catchAsync(getAllProductReviews))
+router.route("/all-reviews/:id").get(catchAsync(getAllProductReviews))
 router.route("/delete/:id").delete(isAuthenticated, checkRole("customer"), catchAsync(deleteReview));
 router.route("/myreview").get(isAuthenticated, checkRole("customer"), catchAsync(getMyReview));
 

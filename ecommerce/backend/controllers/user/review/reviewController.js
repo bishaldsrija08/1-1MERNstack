@@ -8,6 +8,10 @@ const createReview = async (req, res) => {
 
     const { rating, message } = req.body;
 
+    if (!Number.isInteger(Number(rating)) || Number(rating) < 1 || Number(rating) > 5 || !message?.trim()) {
+        return res.status(400).json({ message: "Rating must be between 1 and 5 and review text is required" });
+    }
+
     const productExists = await Product.findById(productId);
     if (!productExists) {
         return res.status(404).json({ message: "Product not found" });
@@ -16,8 +20,8 @@ const createReview = async (req, res) => {
     await Review.create({
         userId,
         productId,
-        rating,
-        message
+        rating: Number(rating),
+        message: message.trim()
     })
 
     res.status(201).json({ message: "Review created successfully" });
@@ -30,7 +34,9 @@ const getAllProductReviews = async (req, res) => {
         return res.status(404).json({ message: "Product not found" });
     }
     // dont fetch unnecessary data
-    const reviews = await Review.find({ productId }).populate("userId").populate("productId");
+    const reviews = await Review.find({ productId })
+        .populate("userId", "userName")
+        .populate("productId", "productName productImageUrl");
     if (reviews.length === 0) {
         return res.status(404).json({ message: "No reviews found for this product" });
     }
@@ -42,8 +48,8 @@ const getMyReview = async (req, res) => {
     const usrId = req.user._id;
 
     const review = await Review.find({ userId: usrId })
-        .populate("userId")
-        .populate("productId");
+        .populate("userId", "userName")
+        .populate("productId", "productName productImageUrl");
 
     if (!review.length) {
         return res.status(404).json({ message: "Review not found" });

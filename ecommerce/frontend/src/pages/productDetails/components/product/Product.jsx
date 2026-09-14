@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../../../store/productSlice";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../../../store/cartSlice";
+import ReviewSection from "../ReviewSection";
 
 const Product = ({ productId }) => {
     const navigate = useNavigate(); 
@@ -29,7 +30,6 @@ const Product = ({ productId }) => {
         }
     }
 
-    {}
 
   return (
     <section className="overflow-hidden text-gray-700 bg-white body-font">
@@ -50,7 +50,7 @@ const Product = ({ productId }) => {
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                 </svg>
           
-                <span className="ml-3 text-gray-600">3 reviews</span>
+                <span className="ml-3 text-gray-600">View reviews below</span>
               </span>
               <span className="flex py-2 pl-3 ml-3 border-l-2 border-gray-200">
                 <a className="text-gray-500">
@@ -93,6 +93,7 @@ const Product = ({ productId }) => {
           </div>
         </div>
       </div>
+      <ReviewSection productId={productId} />
     </section>
   )
 }

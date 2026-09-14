@@ -41,9 +41,20 @@ export default function Navbar() {
             <div className="h-12 w-px bg-yellow-300" />
             {/* If login show logout button else show login and signup buttons */}
             {token ? (
-              <button onClick={handleLogout} className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
-                Logout
-              </button>
+              <div className="flex items-center gap-5">
+                <Link to="/profile" className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
+                  My profile
+                </Link>
+                <Link to="/orders" className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
+                  My orders
+                </Link>
+                <Link to="/reviews" className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
+                  My reviews
+                </Link>
+                <button onClick={handleLogout} className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">
+                  Logout
+                </button>
+              </div>
             ) : (
               <>
                 <Link to="/register" title="Create account" className="text-lg font-semibold text-yellow-800 transition hover:text-yellow-700">

@@ -131,6 +131,7 @@ const forgotPassword = async (req, res) => {
     // Generate OTP and send it to the user's email
     const otp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
     existingUser.otp = otp;
+    existingUser.isOtpVerified = false;
     await existingUser.save();
 
     const options = {
@@ -150,7 +151,8 @@ const forgotPassword = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
     const { userEmail, otp } = req.body;
-    if (!userEmail || !otp) {
+    const numericOtp = Number(otp);
+    if (!userEmail || !/^\d{6}$/.test(String(otp))) {
         return res.status(400).json({
             message: "Email and OTP are required"
         })
@@ -165,7 +167,7 @@ const verifyOtp = async (req, res) => {
             message: "User not found! Try registering instead"
         })
     }
-    const isOtpValid = existingUser.otp === otp;
+    const isOtpValid = existingUser.otp === numericOtp;
     if (!isOtpValid) {
         return res.status(400).json({
             message: "Invalid OTP"

@@ -1,5 +1,6 @@
 const Order = require("../../../models/orderModel");
 const Product = require("../../../models/productModel");
+const User = require("../../../models/userModel");
 
 const createOrder = async (req, res) => {
     const userId = req.user._id;
@@ -22,6 +23,8 @@ const createOrder = async (req, res) => {
         shippingAddress,
         paymentDetails
     })
+
+    await User.findByIdAndUpdate(userId, { cart: [] });
 
     return res.status(201).json({ message: "Order created successfully", data: order });
 }
@@ -51,7 +54,7 @@ const updateMyOrder = async (req, res)=>{
         return res.status(400).json({message: "Order ID is required"});
     }
 
-    if(!shippingAddress || !orderItems || orderItems.length < 0) {
+    if(!shippingAddress || !orderItems || orderItems.length === 0) {
         return res.status(400).json({message: "shippingAddress and orderItems are required to update"});
     }
 
@@ -59,7 +62,6 @@ const updateMyOrder = async (req, res)=>{
     if(!existingOrder) {
         return res.status(404).json({message: "Order not found"});
     }
-    console.log(userId, existingOrder.userId.toString(), "hahha")
 
     if(existingOrder.userId.toString() !== userId.toString()) {
         return res.status(403).json({message: "You are not the owner of this order"});

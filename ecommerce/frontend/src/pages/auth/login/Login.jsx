@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { STATUSES } from "../../../globals/mis/statuses"
 import { useDispatch, useSelector } from "react-redux"
 import { loginUser } from "../../../store/authSlice"
@@ -55,6 +56,9 @@ const Login = () => {
             </svg>
             <input onChange={handleChange} type="password" id="password" name = "userPassword" className="w-full py-2 pl-12 bg-gray-200 md:py-4 focus:outline-none" placeholder="Password" />
           </div>
+          <Link to="/forgot-password" className="block mb-6 text-sm text-right text-yellow-700 hover:underline">
+            Forgot your password?
+          </Link>
           <button onClick={handleSubmit} className="w-full bg-gray-800 p-2 font-medium uppercase text-white md:p-4">Login</button>
         </form>
       </div>
