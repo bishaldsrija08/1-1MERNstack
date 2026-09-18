@@ -8,6 +8,8 @@ const ReviewSection = ({ productId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = useSelector((state) => state.auth.token) || localStorage.getItem("token")
+  const user = useSelector((state) => state.auth.data)
+  const isSeller = user && user.userRole === "seller"
   const { productReviews, status } = useSelector((state) => state.review)
   const [rating, setRating] = useState(5)
   const [message, setMessage] = useState("")
@@ -54,7 +56,7 @@ const ReviewSection = ({ productId }) => {
             <h2 className="text-2xl font-bold text-gray-900">Customer reviews</h2>
             <p className="mt-2 text-sm text-gray-500">{productReviews.length} review{productReviews.length === 1 ? "" : "s"}</p>
           </div>
-          {!token && <Link to="/login" className="text-sm font-semibold text-red-600 hover:underline">Log in to review</Link>}
+          {!token && !isSeller && <Link to="/login" className="text-sm font-semibold text-red-600 hover:underline">Log in to review</Link>}
         </div>
 
         {status === STATUSES.LOADING && <p className="mt-6 text-sm text-gray-500">Loading reviews...</p>}
@@ -72,7 +74,7 @@ const ReviewSection = ({ productId }) => {
           ))}
         </div>
 
-        {token && (
+        {token && !isSeller && (
           <form onSubmit={handleSubmit} className="mt-8 max-w-xl space-y-4 rounded-xl bg-yellow-50 p-5">
             <h3 className="font-bold text-gray-900">Write a review</h3>
             <div>

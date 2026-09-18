@@ -20,6 +20,8 @@ const Product = ({ productId }) => {
     const product = selectedProduct?.data ?? selectedProduct;
 
     const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
+    const user = useSelector((state) => state.auth.data);
+    const isSeller = user && user.userRole === "seller";
 
     const handleCart = () => {
         if (!token) {
@@ -84,10 +86,12 @@ const Product = ({ productId }) => {
             </div>
             <div className="flex">
               <span className="text-2xl font-medium text-gray-900 title-font">NPR {product?.productPrice?.toLocaleString()}</span>
-              {product?.productStockQty>0 ? (
-                <button onClick={handleCart} className="flex px-6 py-2 ml-auto text-white bg-red-500 border-0 rounded focus:outline-none hover:bg-red-600">Add To Cart</button>
-              ):(
-                <button disabled className="flex px-6 py-2 ml-auto text-white bg-gray-500 border-0 rounded focus:outline-none cursor-not-allowed">Out of Stock</button>
+              {!isSeller && (
+                product?.productStockQty>0 ? (
+                  <button onClick={handleCart} className="flex px-6 py-2 ml-auto text-white bg-red-500 border-0 rounded focus:outline-none hover:bg-red-600">Add To Cart</button>
+                ):(
+                  <button disabled className="flex px-6 py-2 ml-auto text-white bg-gray-500 border-0 rounded focus:outline-none cursor-not-allowed">Out of Stock</button>
+                )
               )}
             </div>
           </div>

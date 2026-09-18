@@ -1,64 +1,107 @@
+const socialLinks = [
+  {
+    name: "Facebook",
+    href: "https://facebook.com/digitalmomo",
+    path: "M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z",
+  },
+  {
+    name: "Twitter",
+    href: "https://twitter.com/digitalmomo",
+    path: "M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z",
+  },
+  {
+    name: "Instagram",
+    href: "https://instagram.com/digitalmomo",
+    path: "M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 5a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm5.5-3a1 1 0 100 2 1 1 0 000-2z",
+  },
+  {
+    name: "LinkedIn",
+    href: "https://linkedin.com/company/digitalmomo",
+    path: "M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23h-4V8z",
+  },
+]
+
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "Cart", href: "/cart" },
+  { label: "My orders", href: "/orders" },
+  { label: "My reviews", href: "/reviews" },
+]
+
+const supportLinks = [
+  { label: "Help center", href: "#" },
+  { label: "Contact us", href: "#" },
+  { label: "FAQs", href: "#" },
+  { label: "Terms & privacy", href: "#" },
+]
 
 const Footer = () => {
   return (
-   
-<footer className="mt-20 font-sans bg-yellow-50 dark:bg-gray-900">
-    <div className="container px-6 py-12 mx-auto">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
-            <div className="sm:col-span-2">
-                <h1 className="max-w-lg text-xl font-semibold tracking-tight text-gray-800 xl:text-2xl dark:text-white">Subscribe our newsletter to get an update.</h1>
+    <footer className="mt-20 border-t border-yellow-100 bg-yellow-50 font-sans dark:border-gray-800 dark:bg-gray-900">
+      <div className="container px-6 py-14 mx-auto">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="sm:col-span-2 lg:col-span-2">
+            <a href="/" className="flex items-center gap-2">
+              <span className="text-2xl">🍢</span>
+              <span className="text-2xl font-bold text-yellow-900 dark:text-white">Digital<span className="text-yellow-700"> Momo</span></span>
+            </a>
+            <p className="mt-4 max-w-sm text-gray-600 dark:text-gray-300">
+              Bringing your favorite dishes from local restaurants straight to your door, fresh and fast.
+            </p>
 
-                <div className="flex flex-col mx-auto mt-6 space-y-3 md:space-y-0 md:flex-row">
-                    <input id="email" type="text" className="px-4 py-2 text-gray-700 bg-white border rounded-md dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300" placeholder="Email Address" />
-            
-                    <button className="w-full px-6 py-2.5 text-sm font-medium tracking-wider text-white transition-colors duration-300 transform md:w-auto md:mx-4 focus:outline-none bg-gray-800 rounded-lg hover:bg-gray-700 focus:ring focus:ring-gray-300 focus:ring-opacity-80">
-                        Subscribe
-                    </button>
-                </div>
+            <div className="mt-6">
+              <p className="text-sm font-semibold text-gray-800 dark:text-white">Follow us <span className="font-normal text-yellow-700">@digitalmomo</span></p>
+              <div className="flex gap-3 mt-3">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={`@digitalmomo on ${social.name}`}
+                    aria-label={`Digital Momo on ${social.name}`}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-yellow-800 shadow-sm ring-1 ring-yellow-200 transition hover:bg-yellow-600 hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                      <path d={social.path} />
+                    </svg>
+                  </a>
+                ))}
+              </div>
             </div>
+          </div>
 
-            <div>
-                <p className="font-semibold text-gray-800 dark:text-white">Quick Link</p>
-
-                <div className="flex flex-col items-start mt-5 space-y-2">
-                    <p className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:cursor-pointer hover:text-blue-500">Home</p>
-                    <p className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:cursor-pointer hover:text-blue-500">Who We Are</p>
-                    <p className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:cursor-pointer hover:text-blue-500">Our Philosophy</p>
-                </div>
+          <div>
+            <p className="font-semibold text-gray-800 dark:text-white">Quick links</p>
+            <div className="flex flex-col items-start gap-2 mt-5">
+              {quickLinks.map((link) => (
+                <a key={link.label} href={link.href} className="text-gray-600 transition-colors duration-300 hover:text-yellow-700 hover:underline dark:text-gray-300 dark:hover:text-yellow-400">
+                  {link.label}
+                </a>
+              ))}
             </div>
+          </div>
 
-            <div>
-                <p className="font-semibold text-gray-800 dark:text-white">Industries</p>
-
-                <div className="flex flex-col items-start mt-5 space-y-2">
-                    <p className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:cursor-pointer hover:text-blue-500">Retail & E-Commerce</p>
-                    <p className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:cursor-pointer hover:text-blue-500">Information Technology</p>
-                    <p className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:cursor-pointer hover:text-blue-500">Finance & Insurance</p>
-                </div>
+          <div>
+            <p className="font-semibold text-gray-800 dark:text-white">Support</p>
+            <div className="flex flex-col items-start gap-2 mt-5">
+              {supportLinks.map((link) => (
+                <a key={link.label} href={link.href} className="text-gray-600 transition-colors duration-300 hover:text-yellow-700 hover:underline dark:text-gray-300 dark:hover:text-yellow-400">
+                  {link.label}
+                </a>
+              ))}
             </div>
+          </div>
         </div>
-        
-        <hr className="h-2 my-6 border-gray-200 md:my-8 dark:border-gray-700" />
-        
-        <div className="sm:flex sm:items-center sm:justify-between">
-            <div className="flex flex-1 gap-4 hover:cursor-pointer">
-                <img src="https://www.svgrepo.com/show/303139/google-play-badge-logo.svg" width="130" height="110" alt="" />
-                <img src="https://www.svgrepo.com/show/303128/download-on-the-app-store-apple-logo.svg" width="130" height="110" alt="" />
-            </div>
-            
-            <div className="flex gap-4 hover:cursor-pointer">
-                <img src="https://www.svgrepo.com/show/303114/facebook-3-logo.svg" width="30" height="30" alt="fb" />
-                <img src="https://www.svgrepo.com/show/303115/twitter-3-logo.svg" width="30" height="30" alt="tw" />
-                <img src="https://www.svgrepo.com/show/303145/instagram-2-1-logo.svg" width="30" height="30" alt="inst" />
-                <img src="https://www.svgrepo.com/show/94698/github.svg" className="" width="30" height="30" alt="gt" />
-                <img src="https://www.svgrepo.com/show/22037/path.svg" width="30" height="30" alt="pn" />
-                <img src="https://www.svgrepo.com/show/28145/linkedin.svg" width="30" height="30" alt="in" />
-                <img src="https://www.svgrepo.com/show/22048/dribbble.svg" className="" width="30" height="30" alt="db" />
-            </div>
+
+        <hr className="my-8 border-yellow-200 dark:border-gray-700" />
+
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <p className="text-sm text-gray-600 dark:text-gray-300">© {new Date().getFullYear()} Digital Momo. All rights reserved.</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">Made with 🧡 by <span className="font-semibold text-yellow-800 dark:text-yellow-400">@digitalmomo</span></p>
         </div>
-        <p className="p-8 font-sans text-start md:text-center md:text-lg md:p-4">© 2023 You Company Inc. All rights reserved.</p>
-    </div>
-</footer>
+      </div>
+    </footer>
   )
 }
 

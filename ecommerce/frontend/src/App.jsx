@@ -13,6 +13,9 @@ import ProductDetails from "./pages/productDetails/ProductDetails"
 import MyProfile from "./pages/profile/MyProfile"
 import MyOrder from "./pages/order/MyOrder"
 import MyReviews from "./pages/reviews/MyReviews"
+import AdminDashboard from "./pages/admin/dashboard/AdminDashboard"
+import AddProduct from "./pages/admin/dashboard/AddProduct"
+import AllReviews from "./pages/admin/dashboard/AllReviews"
 import {Provider} from "react-redux"
 import { useSelector } from "react-redux"
 import store from "./store/store"
@@ -21,6 +24,16 @@ function PublicOnly({ children }) {
   const token = useSelector((state) => state.auth.token) || localStorage.getItem("token")
 
   return token ? <Navigate to="/" replace /> : children
+}
+
+function AdminOnly({ children }) {
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token")
+  const user = useSelector((state) => state.auth.data)
+
+  if (!token) return <Navigate to="/login" replace />
+  if (user && user.userRole && user.userRole !== "seller") return <Navigate to="/" replace />
+
+  return children
 }
 
 function App() {
@@ -41,6 +54,9 @@ function App() {
             <Route path="/profile" element={<MyProfile />} />
             <Route path="/orders" element={<MyOrder />} />
             <Route path="/reviews" element={<MyReviews />} />
+            <Route path="/admin/dashboard" element={<AdminOnly><AdminDashboard /></AdminOnly>} />
+            <Route path="/admin/products/add" element={<AdminOnly><AddProduct /></AdminOnly>} />
+            <Route path="/admin/reviews" element={<AdminOnly><AllReviews /></AdminOnly>} />
           </Routes>
         <Footer />
     </BrowserRouter>
