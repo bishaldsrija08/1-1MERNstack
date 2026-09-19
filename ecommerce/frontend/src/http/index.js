@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const API = axios.create({
-    baseURL: "http://localhost:3000/api/",
+    baseURL: "https://digital-momo-kj9l.onrender.com/api/",
     headers:{
         "Content-Type": "application/json",
         Accept: "application/json"
@@ -10,7 +10,7 @@ const API = axios.create({
 })
 
 const APIAuth = axios.create({
-    baseURL: "http://localhost:3000/api/",
+    baseURL: "https://digital-momo-kj9l.onrender.com/api/",
     headers:{
         "Content-Type": "application/json",
         Accept: "application/json"
