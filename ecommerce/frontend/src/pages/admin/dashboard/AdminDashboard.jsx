@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchMyProfile } from "../../../store/authSlice"
-import { fetchAdminOrders, fetchAdminProducts, updateAdminOrderStatus } from "../../../store/adminSlice"
+import { deleteAdminProduct, fetchAdminOrders, fetchAdminProducts, updateAdminOrderStatus } from "../../../store/adminSlice"
 import { STATUSES } from "../../../globals/mis/statuses"
 
 const ORDER_STATUSES = ["Pending", "Preparing", "On the way", "Shipped", "Delivered", "Cancelled", "Returned", "Refunded"]
@@ -25,6 +25,8 @@ const AdminDashboard = () => {
 
 	const [error, setError] = useState("")
 	const [updatingOrderId, setUpdatingOrderId] = useState("")
+	const [deletingProductId, setDeletingProductId] = useState("")
+	const [productSearch, setProductSearch] = useState("")
 
 	useEffect(() => {
 		if (!token) return
@@ -55,6 +57,15 @@ const AdminDashboard = () => {
 		}
 	}, [products, orders])
 
+	const filteredProducts = useMemo(() => {
+		const query = productSearch.trim().toLowerCase()
+		if (!query) return products
+		return products.filter((product) =>
+			product.productName?.toLowerCase().includes(query) ||
+			product.productDescription?.toLowerCase().includes(query)
+		)
+	}, [products, productSearch])
+
 	const handleStatusChange = async (orderId, orderStatus) => {
 		setError("")
 		setUpdatingOrderId(orderId)
@@ -65,6 +76,20 @@ const AdminDashboard = () => {
 			setError(getErrorMessage(updateError))
 		} finally {
 			setUpdatingOrderId("")
+		}
+	}
+
+	const handleDeleteProduct = async (productId, productName) => {
+		if (!window.confirm(`Delete "${productName}"? This cannot be undone.`)) return
+		setError("")
+		setDeletingProductId(productId)
+		try {
+			await dispatch(deleteAdminProduct(productId))
+			await dispatch(fetchAdminProducts())
+		} catch (deleteError) {
+			setError(getErrorMessage(deleteError))
+		} finally {
+			setDeletingProductId("")
 		}
 	}
 
@@ -185,10 +210,24 @@ const AdminDashboard = () => {
 							Add product
 						</Link>
 					</div>
+
+					<div className="mt-4">
+						<input
+							type="search"
+							value={productSearch}
+							onChange={(event) => setProductSearch(event.target.value)}
+							placeholder="Search products by name or description..."
+							className="w-full max-w-md rounded-xl border border-yellow-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+						/>
+					</div>
+
 					{!isLoading && products.length === 0 && (
 						<p className="mt-4 text-gray-600">No products have been added yet.</p>
 					)}
-					{products.length > 0 && (
+					{!isLoading && products.length > 0 && filteredProducts.length === 0 && (
+						<p className="mt-4 text-gray-600">No products match your search.</p>
+					)}
+					{filteredProducts.length > 0 && (
 						<div className="mt-6 overflow-x-auto">
 							<table className="w-full text-left text-sm">
 								<thead>
@@ -197,10 +236,11 @@ const AdminDashboard = () => {
 										<th className="pb-3 pr-4 font-semibold">Price</th>
 										<th className="pb-3 pr-4 font-semibold">Stock</th>
 										<th className="pb-3 pr-4 font-semibold">Status</th>
+										<th className="pb-3 pr-4 font-semibold">Actions</th>
 									</tr>
 								</thead>
 								<tbody>
-									{products.map((product) => (
+									{filteredProducts.map((product) => (
 										<tr key={product._id} className="border-b border-yellow-50">
 											<td className="py-3 pr-4 font-semibold text-yellow-900">{product.productName}</td>
 											<td className="py-3 pr-4 text-gray-600">₹{Number(product.productPrice || 0).toFixed(2)}</td>
@@ -209,6 +249,24 @@ const AdminDashboard = () => {
 												<span className={`rounded-full px-3 py-1 text-xs font-semibold ${product.productStatus === "in-stock" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
 													{product.productStatus}
 												</span>
+											</td>
+											<td className="py-3 pr-4">
+												<div className="flex items-center gap-3">
+													<Link
+														to={`/admin/products/edit/${product._id}`}
+														className="font-semibold text-yellow-800 hover:text-yellow-600"
+													>
+														Edit
+													</Link>
+													<button
+														type="button"
+														disabled={deletingProductId === product._id}
+														onClick={() => handleDeleteProduct(product._id, product.productName)}
+														className="font-semibold text-red-600 hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+													>
+														{deletingProductId === product._id ? "Deleting..." : "Delete"}
+													</button>
+												</div>
 											</td>
 										</tr>
 									))}

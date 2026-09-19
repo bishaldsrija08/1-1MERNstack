@@ -105,3 +105,13 @@ export function createAdminProduct(formData) {
         return res.data;
     };
 }
+
+export function updateAdminProduct(productId, formData) {
+    return async function updateAdminProductThunk() {
+        // Let the browser set the multipart boundary; the instance's default JSON header must not be sent.
+        const res = await APIAuth.patch(`/admin/product/products/${productId}`, formData, {
+            headers: { "Content-Type": undefined },
+        });
+        return res.data;
+    };
+}

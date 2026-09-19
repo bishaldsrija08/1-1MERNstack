@@ -1,17 +1,31 @@
 const express = require("express");
 const app = express();
 
+// Load environment variables
+require("dotenv").config()
+
+// trust the platform's reverse proxy so req.protocol reflects https in production
+app.set("trust proxy", 1)
+
 // cors setup
 const cors = require("cors");
+const allowedOrigins = (process.env.CORS_ORIGINS || "https://digital-momo-five.vercel.app,http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+
 app.use(cors({
-    origin: "https://digital-momo-five.vercel.app", // Replace with your frontend URL
+    origin: (origin, callback) => {
+        // allow non-browser requests (no origin header) and any whitelisted origin
+        if (!origin || allowedOrigins.includes(origin)) {
+            return callback(null, true)
+        }
+        return callback(new Error("Not allowed by CORS"))
+    },
 }))
 
 // Import DB connection
 const connectDB = require("./database/connection")
-
-// Load environment variables
-require("dotenv").config()
 
 // Connect to the database
 connectDB()
@@ -45,7 +59,17 @@ app.use("/api/user/review", reviewRoutes)
 app.use("/api/admin/order", adminOrderRoutes)
 app.use("/api/admin/review", adminReviewRoutes)
 
+// 404 handler for unmatched routes
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" })
+})
 
+// global error handler - avoid leaking internals to the client
+app.use((err, req, res, next) => {
+    console.error(err)
+    const status = err.status || 500
+    res.status(status).json({ message: err.message || "Something went wrong" })
+})
 
 // Start the server
 const port = process.env.PORT || 3000;

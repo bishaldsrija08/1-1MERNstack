@@ -15,6 +15,7 @@ import MyOrder from "./pages/order/MyOrder"
 import MyReviews from "./pages/reviews/MyReviews"
 import AdminDashboard from "./pages/admin/dashboard/AdminDashboard"
 import AddProduct from "./pages/admin/dashboard/AddProduct"
+import EditProduct from "./pages/admin/dashboard/EditProduct"
 import AllReviews from "./pages/admin/dashboard/AllReviews"
 import {Provider} from "react-redux"
 import { useSelector } from "react-redux"
@@ -56,6 +57,7 @@ function App() {
             <Route path="/reviews" element={<MyReviews />} />
             <Route path="/admin/dashboard" element={<AdminOnly><AdminDashboard /></AdminOnly>} />
             <Route path="/admin/products/add" element={<AdminOnly><AddProduct /></AdminOnly>} />
+            <Route path="/admin/products/edit/:id" element={<AdminOnly><EditProduct /></AdminOnly>} />
             <Route path="/admin/reviews" element={<AdminOnly><AllReviews /></AdminOnly>} />
           </Routes>
         <Footer />

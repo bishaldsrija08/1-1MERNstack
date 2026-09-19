@@ -1,26 +1,70 @@
 const Product = require("../../../models/productModel");
 const fs = require("fs");
+const path = require("path");
+
+// build an absolute, environment-correct URL for an uploaded file
+const buildImageUrl = (req, filename) => `${req.protocol}://${req.get("host")}/uploads/${filename}`;
+
+// pull the stored filename out of a previously generated image URL
+const getStoredFileName = (imageUrl) => {
+    if (!imageUrl) return null;
+    try {
+        return decodeURIComponent(new URL(imageUrl).pathname.split("/").pop());
+    } catch {
+        return null;
+    }
+};
+
+// remove an uploaded file from disk, ignoring "already gone" errors
+const removeUploadedFile = (fileName) => {
+    if (!fileName) return;
+    const filePath = path.join("uploads", fileName);
+    fs.unlink(filePath, (err) => {
+        if (err && err.code !== "ENOENT") {
+            console.log(err);
+        }
+    });
+};
+
+const validateProductFields = ({ productName, productDescription, productStockQty, productStatus, productPrice }) => {
+    if (!productName || !productDescription || productStockQty === undefined || productStockQty === "" || !productStatus || productPrice === undefined || productPrice === "") {
+        return "All fields are required";
+    }
+    if (!["in-stock", "out-of-stock"].includes(productStatus)) {
+        return "Invalid product status";
+    }
+    const price = Number(productPrice);
+    const stockQty = Number(productStockQty);
+    if (Number.isNaN(price) || price < 0) {
+        return "Product price must be a non-negative number";
+    }
+    if (!Number.isInteger(stockQty) || stockQty < 0) {
+        return "Product stock quantity must be a non-negative whole number";
+    }
+    return null;
+};
 
 // create product
 const createProduct = async (req, res) => {
     const { productName, productDescription, productStockQty, productStatus, productPrice } = req.body;
-    if (!productName || !productDescription || !productStockQty || !productStatus || !productPrice) {
-        return res.status(400).json({ message: "All fields are required" });
+
+    const validationError = validateProductFields(req.body);
+    if (validationError) {
+        return res.status(400).json({ message: validationError });
     }
+
     const file = req.file;
     if (!file) {
         return res.status(400).json({ message: "Product image is required" });
-    } else {
-        const filePath = file.filename;
     }
 
     await Product.create({
-        productName,
-        productDescription,
-        productStockQty,
+        productName: productName.trim(),
+        productDescription: productDescription.trim(),
+        productStockQty: Number(productStockQty),
         productStatus,
-        productPrice,
-        productImageUrl: `http://localhost:3000/uploads/${file.filename}`
+        productPrice: Number(productPrice),
+        productImageUrl: buildImageUrl(req, file.filename)
     })
 
     return res.status(201).json({ message: "Product created successfully" });
@@ -32,9 +76,10 @@ const createProduct = async (req, res) => {
 const updateSingleProduct = async (req, res) => {
     const id = req.params.id;
     const { productName, productDescription, productStockQty, productStatus, productPrice } = req.body;
-    console.log(req.body, "haha")
-    if (!productName || !productDescription || !productStockQty || !productStatus || !productPrice) {
-        return res.status(400).json({ message: "All fields are required" });
+
+    const validationError = validateProductFields(req.body);
+    if (validationError) {
+        return res.status(400).json({ message: validationError });
     }
 
     const product = await Product.findById(id);
@@ -42,37 +87,23 @@ const updateSingleProduct = async (req, res) => {
         return res.status(404).json({ message: "Product not found" });
     }
 
-    const oldImagePath = product.productImageUrl
-    // http://localhost:3000/uploads/1783008589024-result.png
-    // Need = 1783008589024-result.png
-    // split the oldImagePath to get the file name
-    const siteUrl = "http://localhost:3000/uploads/"
-    const oldImageFileName = oldImagePath.split(siteUrl)[1]
-
     const file = req.file;
-    if (!file) {
-        return res.status(400).json({ message: "Product image is required" });
-    } else {
-        fs.unlink(`uploads/${oldImageFileName}`, (err) => {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log("Old image deleted successfully")
-            }
-        })
+    const update = {
+        productName: productName.trim(),
+        productDescription: productDescription.trim(),
+        productStockQty: Number(productStockQty),
+        productStatus,
+        productPrice: Number(productPrice),
+    };
+
+    // image re-upload is optional on edit; only swap files when a new one is provided
+    if (file) {
+        removeUploadedFile(getStoredFileName(product.productImageUrl));
+        update.productImageUrl = buildImageUrl(req, file.filename);
     }
 
-    const filePath = file.filename;
-
-    await Product.findByIdAndUpdate(id, {
-        productName,
-        productDescription,
-        productStockQty,
-        productStatus,
-        productPrice,
-        productImageUrl: `http://localhost:3000/uploads/${filePath}`
-    })
-    res.status(200).json({ message: "Product updated successfully" })
+    const updatedProduct = await Product.findByIdAndUpdate(id, update, { new: true });
+    res.status(200).json({ message: "Product updated successfully", data: updatedProduct })
 }
 // delete product
 const deleteSingleProduct = async (req, res) => {
@@ -81,20 +112,9 @@ const deleteSingleProduct = async (req, res) => {
     if (!product) {
         return res.status(404).json({ message: "Product not found" });
     }
-    // delete the product image from uploads folder
-    const oldImagePath = product.productImageUrl
-    // http://localhost:3000/uploads/1783008589024-result.png
-    // Need = 1783008589024-result.png
-    // split the oldImagePath to get the file name
-    const siteUrl = "http://localhost:3000/uploads/"
-    const oldImageFileName = oldImagePath.split(siteUrl)[1]
-    fs.unlink(`uploads/${oldImageFileName}`, (err) => {
-        if (err) {
-            console.log(err)
-        } else {
-            console.log("Old image deleted successfully")
-        }
-    })
+
+    removeUploadedFile(getStoredFileName(product.productImageUrl));
+
     await Product.findByIdAndDelete(id);
     return res.status(200).json({ message: "Product deleted successfully" });
 }
